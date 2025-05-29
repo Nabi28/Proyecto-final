@@ -38,7 +38,7 @@ Estudiante capturarEstudiante()
             cout << "Nota " << i + 1 << " (0 a 100): ";
             cin >> nota;
         } while (nota < 0 || nota > 100);
-        e.calificaciones[1] = nota;
+        e.calificaciones[i] = nota;
     }
     cin.ignore();
     return e;
