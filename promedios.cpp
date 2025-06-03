@@ -20,8 +20,6 @@ struct Estudiante
 	string estado;
 };
 
-
-
 	cout << BLUE << "\n =====================================";
 	cout << RED << "\n    SISTEMA DE REGISTRO ACADEMICO    \n";
 	cout << BLUE << " =====================================" << RESET << endl;
