@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -20,9 +21,9 @@ capturarEstudiante()
     Estudiante e;
     int cantidadNotas;
 
-    cout << BLUE << "\n »»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»";
+    cout << BLUE << "\n =====================================";
     cout << RED << "\n    SISTEMA DE REGISTRO ACADEMICO    \n";
-    cout << BLUE << " »»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»" << RESET << endl;
+    cout << BLUE << " =====================================" << RESET << endl;
 
     cout << "Ingrese el Nombre completo: ";
     getline(cin, e.Nombre);
@@ -53,9 +54,9 @@ capturarEstudiante()
 
 void mostrarEstudiantes(const vector<Estudiante> &lista)
 {
-    cout << BLUE << "\n »»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»";
+    cout << BLUE << "\n =====================================";
     cout << RED << "\n    SISTEMA DE REGISTRO ACADEMICO    \n";
-    cout << BLUE << " »»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»" << RESET << endl;
+    cout << BLUE << " =====================================" << RESET << endl;
 
     for (size_t i = 0; i < lista.size(); ++i)
     {
@@ -79,9 +80,9 @@ int main()
     int cantidadEstudiantes;
     vector<Estudiante> listaEstudiantes;
 
-    cout << BLUE << "\n »»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»";
+    cout << BLUE << "\n =====================================";
     cout << RED << "\n    SISTEMA DE REGISTRO ACADEMICO    \n";
-    cout << BLUE << " »»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»" << RESET << endl;
+    cout << BLUE << " =====================================" << RESET << endl;
 
     cout << "Ingrese el numero de estudiantes: ";
     cin >> cantidadEstudiantes;
