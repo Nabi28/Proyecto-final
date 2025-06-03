@@ -20,26 +20,7 @@ struct Estudiante
 	string estado;
 };
 
-// Función para validar la cédula
-bool validarCedula(const string& cedula)
-	{
-    if (cedula.length() != 9) {
-        cout << "Error: La cédula debe tener exactamente 9 dígitos.\n";
-        return false;
-    }
-    for (char c : cedula) {
-        if (!isdigit(c)) {
-            cout << "Error: La cédula solo debe contener números.\n";
-            return false;
-        }
-    }
-    return true;
-}
-// Función para capturar los datos de un estudiante
-Estudiante capturarEstudiante()
-{
-	cout << "\033[2J\033[H";
-	Estudiante e;
+
 
 	cout << BLUE << "\n =====================================";
 	cout << RED << "\n    SISTEMA DE REGISTRO ACADEMICO    \n";
@@ -48,19 +29,6 @@ Estudiante capturarEstudiante()
 	cout << "Ingrese el nombre completo: ";
 	getline(cin, e.nombre);
 
-	do{
-		cout << "Ingrese la cedula: ";
-		getline(cin, e.cedula);
-	} while (!validarCedula(e.cedula));
-
-	cout << "Ingrese el ciclo: ";
-	getline(cin, e.semestre);
-
-		cout << "Ingrese las 5 notas: ";
-	e.calificaciones.resize(5);
-
-	float suma = 0;
-	for (int i = 0; i < 5; ++i)
 	{
 		float nota;
 		do
@@ -74,8 +42,6 @@ Estudiante capturarEstudiante()
 		e.calificaciones[i] = nota;
 		suma += nota;
 	}
-
-	e.promedio = suma / 5;
 	e.estado = (e.promedio >= 70) ? "Aprobado" : "Reprobado";
 
 	cin.ignore(); // Limpia el buffer
@@ -85,7 +51,7 @@ Estudiante capturarEstudiante()
 // Función para mostrar los datos de todos los estudiantes
 void mostrarEstudiantes(const vector<Estudiante> &lista)
 {
-	cout << "\033[2J\033[H";
+
 	cout << BLUE << "\n =====================================";
 	cout << RED << "\n     RESULTADOS DE LOS ESTUDIANTES   \n";
 	cout << BLUE << " =====================================" << RESET << endl;
@@ -94,7 +60,7 @@ void mostrarEstudiantes(const vector<Estudiante> &lista)
 	{
 		cout << "\nEstudiante #" << i + 1 << endl;
 		cout << "Nombre: " << lista[i].nombre << endl;
-		cout << "Cedula: " << lista[i].cedula << endl;
+
 		cout << "Semestre: " << lista[i].semestre << endl;
 		cout << "Calificaciones: ";
 		for (float nota : lista[i].calificaciones)
@@ -114,6 +80,7 @@ void mostrarEstudiantes(const vector<Estudiante> &lista)
 // Función principal
 int main()
 {
+
 	cout << "\033[2J\033[H";
 
 	int cantidadEstudiantes;
@@ -123,7 +90,6 @@ int main()
 	cout << RED << "\n    SISTEMA DE REGISTRO ACADEMICO    \n";
 	cout << BLUE << " =====================================" << RESET << endl;
 
-	cout << "Ingrese el numero de estudiantes: ";
 	cin >> cantidadEstudiantes;
 	cin.ignore(); // Limpiar buffer antes de getline()
 
@@ -136,4 +102,3 @@ int main()
 
 	mostrarEstudiantes(listaEstudiantes);
 	return 0;
-}
