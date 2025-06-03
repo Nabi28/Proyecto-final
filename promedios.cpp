@@ -1,14 +1,28 @@
 #include <iostream>
+#include <vector>
+#include <string>
 
 using namespace std;
 
-int main(){
+struct Estudiante
+{
+    string Nombre;
+    string Cedula;
+    string Semestre;
+    vector<float> calificaciones;
+};
 
-return 0;
+Estudiante capturarEstudiante()
+{
+    Estudiante e;
+    int cantidadNotas;
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 }
 =======
+=======
+>>>>>>> e62bbbd (vector/matriz)
     cout << "Ingrese el Nombre completo: ";
     getline(cin, e.Nombre);
 
@@ -18,7 +32,11 @@ return 0;
     cout << "Ingrese Semestre";
     getline(cin, e.Semestre);
 
+<<<<<<< HEAD
     cout << "Cuantas notas desea calcular?: ";
+=======
+    cout << "¿Cauntas notas decea calcular?: ";
+>>>>>>> e62bbbd (vector/matriz)
     cin >> cantidadNotas;
     e.calificaciones.resize(cantidadNotas);
 
@@ -74,5 +92,9 @@ int main()
     mostrarEstudiantes(listaEstudiantes);
 
     return 0;
+<<<<<<< HEAD
 }
 >>>>>>> Stashed changes
+=======
+}
+>>>>>>> e62bbbd (vector/matriz)
