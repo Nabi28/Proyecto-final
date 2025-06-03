@@ -20,12 +20,6 @@ struct Estudiante
 	string estado;
 };
 
-// Función para capturar los datos de un estudiante
-Estudiante capturarEstudiante()
-{
-	Estudiante e;
-	int cantidadNotas;
-
 	cout << BLUE << "\n =====================================";
 	cout << RED << "\n    SISTEMA DE REGISTRO ACADEMICO    \n";
 	cout << BLUE << " =====================================" << RESET << endl;
@@ -33,18 +27,6 @@ Estudiante capturarEstudiante()
 	cout << "Ingrese el nombre completo: ";
 	getline(cin, e.nombre);
 
-	cout << "Ingrese la cédula: ";
-	getline(cin, e.cedula);
-
-	cout << "Ingrese el semestre: ";
-	getline(cin, e.semestre);
-
-	cout << "¿Cuántas notas desea calcular?: ";
-	cin >> cantidadNotas;
-	e.calificaciones.resize(cantidadNotas);
-
-	float suma = 0;
-	for (int i = 0; i < cantidadNotas; ++i)
 	{
 		float nota;
 		do
@@ -58,8 +40,6 @@ Estudiante capturarEstudiante()
 		e.calificaciones[i] = nota;
 		suma += nota;
 	}
-
-	e.promedio = suma / cantidadNotas;
 	e.estado = (e.promedio >= 70) ? "Aprobado" : "Reprobado";
 
 	cin.ignore(); // Limpia el buffer
@@ -69,6 +49,7 @@ Estudiante capturarEstudiante()
 // Función para mostrar los datos de todos los estudiantes
 void mostrarEstudiantes(const vector<Estudiante> &lista)
 {
+
 	cout << BLUE << "\n =====================================";
 	cout << RED << "\n     RESULTADOS DE LOS ESTUDIANTES   \n";
 	cout << BLUE << " =====================================" << RESET << endl;
@@ -77,7 +58,7 @@ void mostrarEstudiantes(const vector<Estudiante> &lista)
 	{
 		cout << "\nEstudiante #" << i + 1 << endl;
 		cout << "Nombre: " << lista[i].nombre << endl;
-		cout << "Cédula: " << lista[i].cedula << endl;
+
 		cout << "Semestre: " << lista[i].semestre << endl;
 		cout << "Calificaciones: ";
 		for (float nota : lista[i].calificaciones)
@@ -97,7 +78,7 @@ void mostrarEstudiantes(const vector<Estudiante> &lista)
 // Función principal
 int main()
 {
-	// Limpiar pantalla al iniciar
+
 	cout << "\033[2J\033[H";
 
 	int cantidadEstudiantes;
@@ -107,7 +88,6 @@ int main()
 	cout << RED << "\n    SISTEMA DE REGISTRO ACADEMICO    \n";
 	cout << BLUE << " =====================================" << RESET << endl;
 
-	cout << "Ingrese el número de estudiantes: ";
 	cin >> cantidadEstudiantes;
 	cin.ignore(); // Limpiar buffer antes de getline()
 
@@ -120,4 +100,3 @@ int main()
 
 	mostrarEstudiantes(listaEstudiantes);
 	return 0;
-}
