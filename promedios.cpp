@@ -1,7 +1,7 @@
-// Prueba
 #include <iostream>
 #include <string>
 #include <limits>
+#include <iomanip>
 
 #define RED "\033[31m"
 #define BLUE "\033[34m"
@@ -18,6 +18,7 @@ struct Estudiante
 	float calificaciones[5];
 	float promedio;
 	string estado;
+	string mensajeFinal;
 };
 
 bool validarCedula(const string &cedula)
@@ -78,11 +79,11 @@ Estudiante capturarEstudiante()
 
 			if (cin.fail())
 			{
-				cin.clear(); // limpiar error
+				cin.clear();
 				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				cout << RED << "Error: Entrada invalida. Ingrese un numero.\n"
 					 << RESET;
-				nota = -1; // fuerza repetir el ciclo
+				nota = -1;
 				continue;
 			}
 
@@ -96,7 +97,16 @@ Estudiante capturarEstudiante()
 	}
 
 	e.promedio = suma / 5;
-	e.estado = (e.promedio >= 70) ? "Aprobado" : "Reprobado";
+	if (e.promedio >= 70)
+	{
+		e.estado = "Aprobado";
+		e.mensajeFinal = "¡Felicidades! Has aprobado el curso.";
+	}
+	else
+	{
+		e.estado = "Reprobado";
+		e.mensajeFinal = "Mejor suerte para la próxima, insecto.";
+	}
 
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	return e;
@@ -110,22 +120,43 @@ void mostrarEstudiantes(const Estudiante lista[], int cantidad)
 
 	for (int i = 0; i < cantidad; ++i)
 	{
-		cout << "\nEstudiante #" << i + 1 << endl;
-		cout << "Nombre: " << lista[i].nombre << endl;
-		cout << "Cedula: " << lista[i].cedula << endl;
-		cout << "Semestre: " << lista[i].semestre << endl;
+		cout << "\n=== Estudiante #" << i + 1 << " ===\n";
+
+		cout << "Nombre:     " << lista[i].nombre << "\n";
+		cout << "Cédula:     " << lista[i].cedula << "\n";
+		cout << "Semestre:   " << lista[i].semestre << "\n";
+
 		cout << "Calificaciones: ";
 		for (int j = 0; j < 5; ++j)
 		{
-			cout << lista[i].calificaciones[j] << " ";
+			cout << lista[i].calificaciones[j];
+			if (j < 4)
+				cout << ", ";
 		}
-		cout << "\nPromedio: " << lista[i].promedio;
-		cout << "\nEstado: ";
+		cout << "\n";
+
+		cout << "Promedio: " << fixed << setprecision(2) << lista[i].promedio << "\n";
+
+		string marco = "+====================+\n";
 
 		if (lista[i].estado == "Aprobado")
-			cout << GREEN << lista[i].estado << RESET << endl;
+		{
+			cout << GREEN;
+			cout << marco;
+			cout << "|   ✅  Aprobado     |\n";
+			cout << marco;
+			cout << RESET;
+		}
 		else
-			cout << RED << lista[i].estado << RESET << endl;
+		{
+			cout << RED;
+			cout << marco;
+			cout << "|   ❌  Reprobado      |\n";
+			cout << marco;
+			cout << RESET;
+		}
+
+		cout << "Mensaje: " << lista[i].mensajeFinal << "\n";
 	}
 }
 
