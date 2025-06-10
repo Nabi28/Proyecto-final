@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <vector>
+#include <limits>
 
 #define RED "\033[31m"
 #define BLUE "\033[34m"
@@ -14,7 +14,7 @@ struct Estudiante
 	string nombre;
 	string cedula;
 	string semestre;
-	vector<float> calificaciones;
+	float calificaciones[5];
 	float promedio;
 	string estado;
 };
@@ -41,15 +41,20 @@ bool validarCedula(const string &cedula)
 
 Estudiante capturarEstudiante()
 {
-
 	Estudiante e;
 
 	cout << BLUE << "\n =====================================";
 	cout << RED << "\n    SISTEMA DE REGISTRO ACADEMICO    \n";
 	cout << BLUE << " =====================================" << RESET << endl;
 
-	cout << "Ingrese el nombre completo: ";
-	getline(cin, e.nombre);
+	do
+	{
+		cout << "Ingrese el nombre completo: ";
+		getline(cin, e.nombre);
+		if (e.nombre.empty())
+			cout << RED << "Error: El nombre no puede estar vacío.\n"
+				 << RESET;
+	} while (e.nombre.empty());
 
 	do
 	{
@@ -61,8 +66,6 @@ Estudiante capturarEstudiante()
 	getline(cin, e.semestre);
 
 	cout << "Ingrese las 5 notas:" << endl;
-	e.calificaciones.resize(5);
-
 	float suma = 0;
 	for (int i = 0; i < 5; ++i)
 	{
@@ -95,26 +98,25 @@ Estudiante capturarEstudiante()
 	e.estado = (e.promedio >= 70) ? "Aprobado" : "Reprobado";
 
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
 	return e;
 }
 
-void mostrarEstudiantes(const vector<Estudiante> &lista)
+void mostrarEstudiantes(const Estudiante lista[], int cantidad)
 {
 	cout << BLUE << "\n =====================================";
 	cout << RED << "\n     RESULTADOS DE LOS ESTUDIANTES   \n";
 	cout << BLUE << " =====================================" << RESET << endl;
 
-	for (size_t i = 0; i < lista.size(); ++i)
+	for (int i = 0; i < cantidad; ++i)
 	{
 		cout << "\nEstudiante #" << i + 1 << endl;
 		cout << "Nombre: " << lista[i].nombre << endl;
 		cout << "Cedula: " << lista[i].cedula << endl;
 		cout << "Semestre: " << lista[i].semestre << endl;
 		cout << "Calificaciones: ";
-		for (float nota : lista[i].calificaciones)
+		for (int j = 0; j < 5; ++j)
 		{
-			cout << nota << " ";
+			cout << lista[i].calificaciones[j] << " ";
 		}
 		cout << "\nPromedio: " << lista[i].promedio;
 		cout << "\nEstado: ";
@@ -152,15 +154,14 @@ int main()
 
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-	vector<Estudiante> listaEstudiantes;
+	Estudiante listaEstudiantes[cantidadEstudiantes];
 
 	for (int i = 0; i < cantidadEstudiantes; ++i)
 	{
 		cout << "\nCapturando datos del estudiante #" << i + 1 << endl;
-		Estudiante nuevo = capturarEstudiante();
-		listaEstudiantes.push_back(nuevo);
+		listaEstudiantes[i] = capturarEstudiante();
 	}
 
-	mostrarEstudiantes(listaEstudiantes);
+	mostrarEstudiantes(listaEstudiantes, cantidadEstudiantes);
 	return 0;
 }
