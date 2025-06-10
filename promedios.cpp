@@ -10,7 +10,7 @@
 
 using namespace std;
 
-struct Estudiante
+struct Estudiante 
 {
 	string nombre;
 	string cedula;
@@ -53,7 +53,7 @@ Estudiante capturarEstudiante()
 		cout << "Ingrese el nombre completo: ";
 		getline(cin, e.nombre);
 		if (e.nombre.empty())
-			cout << RED << "Error: El nombre no puede estar vacío.\n"
+			cout << RED << "Error: El nombre no puede estar vacio.\n"
 				 << RESET;
 	} while (e.nombre.empty());
 
