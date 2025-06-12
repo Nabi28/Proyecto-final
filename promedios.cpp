@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <string>
 #include <limits>
+#include <iomanip>
 
 #define RED "\033[31m"
 #define BLUE "\033[34m"
@@ -17,6 +18,7 @@ struct Estudiante {
 	float calificaciones[5];
 	float promedio;
 	string estado;
+	string mensajeFinal;
 };
 
 // Función de validación de cédula
@@ -64,11 +66,21 @@ Estudiante capturarEstudiante() {
 		do {
 			cout << "Nota " << i + 1 << " (0 a 100): ";
 			cin >> nota;
+
 			
 			if (cin.fail()) {
 				cin.clear();
 				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				cout << RED << "Error: Entrada inválida. Ingrese un número.\n" << RESET;
+
+
+			if (cin.fail())
+			{
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cout << RED << "Error: Entrada invalida. Ingrese un numero.\n"
+					 << RESET;
+
 				nota = -1;
 				continue;
 			}
@@ -82,11 +94,26 @@ Estudiante capturarEstudiante() {
 	}
 	
 	e.promedio = suma / 5;
+
 	e.estado = (e.promedio >= 70) ? "Aprobado" : "Reprobado";
 	
+
+	if (e.promedio >= 70)
+	{
+		e.estado = "Aprobado";
+		e.mensajeFinal = "¡Felicidades! Has aprobado el curso.";
+	}
+	else
+	{
+		e.estado = "Reprobado";
+		e.mensajeFinal = "Mejor suerte para la próxima, insecto.";
+	}
+
+
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	return e;
 }
+
 
 // Mostrar resultados en tabla alineada
 void mostrarEstudiantes(const Estudiante lista[], int cantidad) {
@@ -114,6 +141,53 @@ void mostrarEstudiantes(const Estudiante lista[], int cantidad) {
 		string a = (i < contA) ? aprobados[i] : "";
 		string r = (i < contR) ? reprobados[i] : "";
 		cout << left << setw(20) << a << "| " << r << endl;
+=======
+void mostrarEstudiantes(const Estudiante lista[], int cantidad)
+{
+	cout << BLUE << "\n =====================================";
+	cout << RED << "\n     RESULTADOS DE LOS ESTUDIANTES   \n";
+	cout << BLUE << " =====================================" << RESET << endl;
+
+	for (int i = 0; i < cantidad; ++i)
+	{
+		cout << "\n=== Estudiante #" << i + 1 << " ===\n";
+
+		cout << "Nombre:     " << lista[i].nombre << "\n";
+		cout << "Cédula:     " << lista[i].cedula << "\n";
+		cout << "Semestre:   " << lista[i].semestre << "\n";
+
+		cout << "Calificaciones: ";
+		for (int j = 0; j < 5; ++j)
+		{
+			cout << lista[i].calificaciones[j];
+			if (j < 4)
+				cout << ", ";
+		}
+		cout << "\n";
+
+		cout << "Promedio: " << fixed << setprecision(2) << lista[i].promedio << "\n";
+
+		string marco = "+====================+\n";
+
+		if (lista[i].estado == "Aprobado")
+		{
+			cout << GREEN;
+			cout << marco;
+			cout << "|   ✅  Aprobado     |\n";
+			cout << marco;
+			cout << RESET;
+		}
+		else
+		{
+			cout << RED;
+			cout << marco;
+			cout << "|   ❌  Reprobado      |\n";
+			cout << marco;
+			cout << RESET;
+		}
+
+		cout << "Mensaje: " << lista[i].mensajeFinal << "\n";
+
 	}
 }
 
