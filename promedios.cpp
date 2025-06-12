@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <limits>
 #include <iomanip>
@@ -10,8 +11,7 @@
 
 using namespace std;
 
-struct Estudiante
-{
+struct Estudiante {
 	string nombre;
 	string cedula;
 	string semestre;
@@ -21,61 +21,58 @@ struct Estudiante
 	string mensajeFinal;
 };
 
-bool validarCedula(const string &cedula)
-{
-	if (cedula.length() != 9)
-	{
-		cout << RED << "Error: La cedula debe tener exactamente 9 digitos numericos.\n"
-			 << RESET;
+// Función de validación de cédula
+bool validarCedula(const string &cedula) {
+	if (cedula.length() != 9) {
+		cout << RED << "Error: La cédula debe tener exactamente 9 dígitos numéricos.\n" << RESET;
 		return false;
 	}
-	for (char c : cedula)
-	{
-		if (!isdigit(c))
-		{
-			cout << RED << "Error: La cedula solo debe contener numeros.\n"
-				 << RESET;
+	for (char c : cedula) {
+		if (!isdigit(c)) {
+			cout << RED << "Error: La cédula solo debe contener números.\n" << RESET;
 			return false;
 		}
 	}
 	return true;
 }
 
-Estudiante capturarEstudiante()
-{
+// Captura de datos de estudiantes
+Estudiante capturarEstudiante() {
 	Estudiante e;
-
-	cout << BLUE << "\n =====================================";
-	cout << RED << "\n    SISTEMA DE REGISTRO ACADEMICO    \n";
-	cout << BLUE << " =====================================" << RESET << endl;
-
-	do
-	{
+	
+	cout << BLUE << "\n=====================================";
+	cout << RED << "\n    SISTEMA DE REGISTRO ACADÉMICO    \n";
+	cout << BLUE << "=====================================" << RESET << endl;
+	
+	do {
 		cout << "Ingrese el nombre completo: ";
 		getline(cin, e.nombre);
 		if (e.nombre.empty())
-			cout << RED << "Error: El nombre no puede estar vacío.\n"
-				 << RESET;
+			cout << RED << "Error: El nombre no puede estar vacío.\n" << RESET;
 	} while (e.nombre.empty());
-
-	do
-	{
-		cout << "Ingrese la cedula: ";
+	
+	do {
+		cout << "Ingrese la cédula: ";
 		getline(cin, e.cedula);
 	} while (!validarCedula(e.cedula));
-
+	
 	cout << "Ingrese el ciclo: ";
 	getline(cin, e.semestre);
-
+	
 	cout << "Ingrese las 5 notas:" << endl;
 	float suma = 0;
-	for (int i = 0; i < 5; ++i)
-	{
+	for (int i = 0; i < 5; ++i) {
 		float nota;
-		do
-		{
+		do {
 			cout << "Nota " << i + 1 << " (0 a 100): ";
 			cin >> nota;
+
+			
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cout << RED << "Error: Entrada inválida. Ingrese un número.\n" << RESET;
+
 
 			if (cin.fail())
 			{
@@ -83,20 +80,24 @@ Estudiante capturarEstudiante()
 				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				cout << RED << "Error: Entrada invalida. Ingrese un numero.\n"
 					 << RESET;
+
 				nota = -1;
 				continue;
 			}
-
+			
 			if (nota < 0 || nota > 100)
-				cout << RED << " Error: Nota fuera de rango.\n"
-					 << RESET;
-
+				cout << RED << " Error: Nota fuera de rango.\n" << RESET;
+			
 		} while (nota < 0 || nota > 100);
 		e.calificaciones[i] = nota;
 		suma += nota;
 	}
-
+	
 	e.promedio = suma / 5;
+
+	e.estado = (e.promedio >= 70) ? "Aprobado" : "Reprobado";
+	
+
 	if (e.promedio >= 70)
 	{
 		e.estado = "Aprobado";
@@ -108,10 +109,39 @@ Estudiante capturarEstudiante()
 		e.mensajeFinal = "Mejor suerte para la próxima, insecto.";
 	}
 
+
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	return e;
 }
 
+
+// Mostrar resultados en tabla alineada
+void mostrarEstudiantes(const Estudiante lista[], int cantidad) {
+	string aprobados[cantidad], reprobados[cantidad];
+	int contA = 0, contR = 0;
+	
+	for (int i = 0; i < cantidad; ++i) {
+		if (lista[i].estado == "Aprobado") {
+			aprobados[contA++] = lista[i].nombre;
+		} else {
+			reprobados[contR++] = lista[i].nombre;
+		}
+	}
+	
+	cout << BLUE << "\n=====================================";
+	cout << RED << "\n     RESULTADOS DE LOS ESTUDIANTES   \n";
+	cout << BLUE << "=====================================" << RESET << endl;
+	
+	// Imprimir tabla alineada
+	cout << left << setw(20) << "APROBADOS" << "| " << "REPROBADOS" << endl;
+	cout << setw(20) << "--------------------" << "| " << "--------------------" << endl;
+	
+	int max = contA > contR ? contA : contR;
+	for (int i = 0; i < max; i++) {
+		string a = (i < contA) ? aprobados[i] : "";
+		string r = (i < contR) ? reprobados[i] : "";
+		cout << left << setw(20) << a << "| " << r << endl;
+=======
 void mostrarEstudiantes(const Estudiante lista[], int cantidad)
 {
 	cout << BLUE << "\n =====================================";
@@ -157,43 +187,38 @@ void mostrarEstudiantes(const Estudiante lista[], int cantidad)
 		}
 
 		cout << "Mensaje: " << lista[i].mensajeFinal << "\n";
+
 	}
 }
 
-int main()
-{
-	cout << "\033[2J\033[H";
-
+int main() {
+	cout << "\033[2J\033[H"; // Limpiar pantalla
+	
 	int cantidadEstudiantes;
-
-	do
-	{
-		cout << BLUE << "\n =====================================";
-		cout << RED << "\n    SISTEMA DE REGISTRO ACADEMICO    \n";
-		cout << BLUE << " =====================================" << RESET << endl;
-
-		cout << "Ingrese el numero de estudiantes: ";
+	do {
+		cout << BLUE << "\n=====================================";
+		cout << RED << "\n    SISTEMA DE REGISTRO ACADÉMICO    \n";
+		cout << BLUE << "=====================================" << RESET << endl;
+		
+		cout << "Ingrese el número de estudiantes: ";
 		cin >> cantidadEstudiantes;
-		if (cin.fail() || cantidadEstudiantes <= 0)
-		{
+		if (cin.fail() || cantidadEstudiantes <= 0) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cout << RED << "Error: Debe ingresar un numero entero positivo.\n"
-				 << RESET;
+			cout << RED << "Error: Debe ingresar un número entero positivo.\n" << RESET;
 			cantidadEstudiantes = 0;
 		}
 	} while (cantidadEstudiantes <= 0);
-
+	
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
+	
 	Estudiante listaEstudiantes[cantidadEstudiantes];
-
-	for (int i = 0; i < cantidadEstudiantes; ++i)
-	{
+	
+	for (int i = 0; i < cantidadEstudiantes; ++i) {
 		cout << "\nCapturando datos del estudiante #" << i + 1 << endl;
 		listaEstudiantes[i] = capturarEstudiante();
 	}
-
+	
 	mostrarEstudiantes(listaEstudiantes, cantidadEstudiantes);
 	return 0;
 }
